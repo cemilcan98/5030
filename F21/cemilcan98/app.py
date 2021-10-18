@@ -6,27 +6,34 @@ def toLowerCase(word):
         return upperCaseWord
 
     # Checking for the special letters in Turkish and Azeri
+    # The Azerbaijani Latin alphabet is based on the Turkish Latin alphabet.
 
     if(word[1] == "tr" or word[1] == "az"):
 
         upperCaseWord = word[0]
 
         upperCaseWord = upperCaseWord.replace(
+
             '\u011E', '\u011F')  # char is Ğ and ğ
 
         upperCaseWord = upperCaseWord.replace(
+
             '\u00C7', '\u00E7')  # char is Ç and ç
 
         upperCaseWord = upperCaseWord.replace(
+
             '\u00D6', '\u00F6')  # char is Ö and ö
 
         upperCaseWord = upperCaseWord.replace(
+
             '\u00D3', '\u00FC')  # char is Ó and ü
 
         upperCaseWord = upperCaseWord.replace(
+
             '\u015E', '\u015F')  # char is Ş and ş
 
         upperCaseWord = upperCaseWord.replace(
+
             '\u0049', '\u0131')  # char is I and ı
 
         upperCaseWord = upperCaseWord.lower()
@@ -39,7 +46,7 @@ def toLowerCase(word):
 
         upperCaseWord = word[0]
 
-        if(len(word[0] > 1)):
+        if(len(word[0]) > 1):
             first = word[0][0]
             second = word[0][1]
         else:
@@ -47,7 +54,6 @@ def toLowerCase(word):
             second = ""
 
         first_letters = ['n', 't']
-
         second_letters = ['A', 'E', 'I', 'O', 'U', '\u00C1',
                           '\u00C9', '\u00CD', '\u00D3', '\u00D3']
 
@@ -75,29 +81,45 @@ def toLowerCase(word):
                         '\u00F3' + upperCaseWord[3:]
 
         else:
+
             upperCaseWord = upperCaseWord.lower()
         return upperCaseWord
 
     # Greek Cases
 
     if(word[1] == "el"):
+
         upperCaseWord = word[0]
+
         if(upperCaseWord[-1] == '\u03A3'):
+
             upperCaseWord = upperCaseWord[:-1] + '\u03C2'
 
         upperCaseWord = upperCaseWord.lower()
         return upperCaseWord
 
-    if(word[1] in ["zh", "ja", "th", "zh-Hans"]):
+    if(word[1] in ["zh", "ja"]):
+
+        upperCaseWord = word[0]
+        return upperCaseWord
+
+    if(word[1] in ["th"]):
+
+        upperCaseWord = word[0]
+        return upperCaseWord
+
+    if(word[1] in ["zh-Hans"]):
 
         upperCaseWord = word[0]
         return upperCaseWord
 
 
-def open_file(file_name):
+def read_file(file_name):
 
     f = open(file_name, encoding="utf8")
+
     lines_text = []
+
     pieces_text = []
 
     for line in f:
@@ -105,21 +127,22 @@ def open_file(file_name):
         lines_text.append(line)
         pieces = line.split('\t')
         pieces_text.append(pieces)
+
     return pieces_text
+
+# closing the file after reading
 
 
 def close_file(file_name):
-
     f = open(file_name, encoding="utf8")
     f.close()
 
 
-textFile = open_file('tests.tsv')
-
+textFile = read_file('tests.tsv')
 
 for iteration in textFile:
-
     if (iteration[2] != toLowerCase(iteration)):
         print("Failed test: ", iteration)
+
 
 close_file('tests.tsv')
